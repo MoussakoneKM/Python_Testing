@@ -1,35 +1,95 @@
-<html lang="en">
+<!DOCTYPE html>
+<html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Summary | GUDLFT Registration</title>
+    <title>Résumé | Inscription GUDLFT</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f9f9f9;
+            color: #333;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding-top: 40px;
+        }
+
+        h2 {
+            margin-top: 20px;
+            color: #007bff;
+            font-size: 24px;
+        }
+
+        h3 {
+            margin-top: 20px;
+            color: #4CAF50;
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        li {
+            margin-bottom: 20px;
+        }
+
+        a {
+            color: #007bff;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        hr {
+            border: none;
+            border-top: 1px solid #ccc;
+            width: 100%;
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }
+
+        p {
+            margin-bottom: 20px;
+            font-size: 16px;
+        }
+    </style>
 </head>
 <body>
-    <h2>Welcome, {{club['email']}} </h2><a href="{{url_for('logout')}}">Logout</a>
-    {% with messages = get_flashed_messages()%}
-    {% if messages %}
-        <ul>
-       {% for message in messages %}
-            <li>{{message}}</li>
-        {% endfor %}
-       </ul>
-    {% endif%}
-    Points available: {{club['points']}}
-    <h3>Competitions:</h3>
+    <h2>Bienvenue, {{club['email']}}</h2>
+    <a href="{{url_for('logout')}}">Déconnexion</a>
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <ul>
+                {% for message in messages %}
+                    <li>{{message}}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    {% endwith %}
+    <p>Points disponibles : {{club['points']}}</p>
+    <h3>Compétitions :</h3>
     <ul>
-        {% for comp in competitions%}
-        <li>
-            {{comp['name']}}<br />
-            Date: {{comp['date']}}</br>
-            Number of Places: {{comp['numberOfPlaces']}}
-            {%if comp['numberOfPlaces']|int >0%}
-            <a href="{{ url_for('book',competition=comp['name'],club=club['name']) }}">Book Places</a>
-            {%endif%}
-        </li>
-        <hr />
+        {% for comp in competitions %}
+            <li>
+                {{comp['name']}}<br />
+                Date : {{comp['date']}}<br />
+                Nombre de places disponibles : {{comp['numberOfPlaces']}}
+                {% if comp['numberOfPlaces']|int > 0 %}
+                    <a href="{{ url_for('book', competition=comp['name'], club=club['name']) }}">Réserver des places</a>
+                {% endif %}
+            </li>
+            <hr />
         {% endfor %}
     </ul>
-    {%endwith%}
-
 </body>
 </html>
